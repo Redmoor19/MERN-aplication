@@ -5,25 +5,25 @@ import { UpdateProfile } from '../components/updateprofile'
 
 export const ProfilePage = () =>{
     const [data,setData] = useState({updated: false})
-    const [updater, setUpdater] = useState(false)
+    const [updater, setUpdater] = useState()
     const {request} = useHttp()
     const auth = useContext(AuthContext)
 
     
     useEffect( () =>{
+        const dataHandler = async () =>{
+            if(auth && auth.userId){
+                const response = await request(`api/profile/${auth.userId}`,'GET',null,{Authorization: `Bearer ${auth.token}`})
+                setData(response)
+            }   
+        }
         dataHandler()
-    }, [auth.userId, updater])
-
+    }, [auth.userId, updater,auth,request])
+    
     const update = () =>{
         setUpdater(true)
     }
-
-    const dataHandler = async () =>{
-        if(auth && auth.userId){
-            const response = await request(`api/profile/${auth.userId}`,'GET',null,{Authorization: `Bearer ${auth.token}`})
-            setData(response)
-        }   
-    }
+    
 
     if(!data.updated){
         return(

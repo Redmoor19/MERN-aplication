@@ -6,17 +6,18 @@ export const useAuth = () =>{
     const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
     const [ready, setReady] = useState(false)
-    const [worthy, setWorthy] = useState(false)
+    const [worthy, setWorthy] = useState(null)
 
-    const login = useCallback( (jwtToken, id, worthy) => {
+    const login = useCallback( (jwtToken, id, access) => {
         setToken(jwtToken)
         setUserId(id)
-        setWorthy(worthy)
+        setWorthy(access)
         
 
         localStorage.setItem(storageName, JSON.stringify({
             token: jwtToken,
-            userId: id
+            userId: id,
+            worthy: access
         }))
     }, [])
 
@@ -31,7 +32,7 @@ export const useAuth = () =>{
         const data = JSON.parse(localStorage.getItem(storageName))
 
         if(data && data.token){
-            login(data.token, data.userId)
+            login(data.token, data.userId, data.worthy)
         }
         setReady(true)
     },[login])

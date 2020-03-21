@@ -12,7 +12,7 @@ export const Navbar = (props) =>{
         history.push('/')
     }
 
-    if(props.worthy){
+    if(props.access){
         return(
         <nav>
         <div className="nav-wrapper blue darken-1">

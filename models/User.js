@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
     updated:{
         type: Boolean,
         default: false
+    },
+    isWorthy:{
+        type: String,
+        default: " "
     }
 })
 

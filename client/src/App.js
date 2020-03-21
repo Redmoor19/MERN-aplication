@@ -11,16 +11,16 @@ import 'materialize-css';
 function App() {
   const {login, logout, token, userId, ready, worthy} = useAuth()
   const isAuthenticated = !!token
+  const isWorthy = worthy
   const routes = useRoutes(isAuthenticated)
-  const isWorthy = !!worthy
   
   if(!ready){
     return <Loader />
   }
   return (
-    <AuthContext.Provider value={{login, logout, token, userId, isAuthenticated, isWorthy}}>
+    <AuthContext.Provider value={{login, logout, token, userId, isAuthenticated}}>
       <Router>
-            {isAuthenticated && <Navbar worthy={isWorthy}/>}
+            {isAuthenticated && <Navbar access={isWorthy}/>}
             <div className = "container">
               {routes}
             </div>

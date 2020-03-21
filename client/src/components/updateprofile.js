@@ -22,7 +22,6 @@ export const UpdateProfile = (props) =>{
     }
 
     const updateHandler = async () => {
-        console.log(props.token)
         await request(`/api/profile/${props.id}`,'POST',{...form},{Authorization: `Bearer ${props.token}`})
         props.updated()
     }
