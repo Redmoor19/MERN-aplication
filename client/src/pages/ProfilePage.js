@@ -1,10 +1,12 @@
 import React,{useEffect, useState, useContext} from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { AuthContext } from '../context/AuthContext'
+import { Loader } from '../components/loader'
 import { UpdateProfile } from '../components/updateprofile'
 
 export const ProfilePage = () =>{
-    const [data,setData] = useState({updated: false})
+    const [data,setData] = useState()
+    const [ready, setReady] = useState(false)
     const [updater, setUpdater] = useState()
     const {request} = useHttp()
     const auth = useContext(AuthContext)
@@ -15,7 +17,8 @@ export const ProfilePage = () =>{
             if(auth && auth.userId){
                 const response = await request(`api/profile/${auth.userId}`,'GET',null,{Authorization: `Bearer ${auth.token}`})
                 setData(response)
-            }   
+                setReady(true)
+            }
         }
         dataHandler()
     }, [auth.userId, updater,auth,request])
@@ -24,7 +27,9 @@ export const ProfilePage = () =>{
         setUpdater(true)
     }
     
-
+    if(!ready){
+        return <Loader/>
+    }
     if(!data.updated){
         return(
             <UpdateProfile id={auth.userId} token={auth.token} updated={update}/>

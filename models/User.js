@@ -18,8 +18,8 @@ const userSchema = mongoose.Schema({
         default: false
     },
     isWorthy:{
-        type: String,
-        default: " "
+        type: Boolean,
+        default: false
     }
 })
 
