@@ -1,6 +1,6 @@
 module.exports = (req, res,next) =>{
     try{
-        const worthy =  req.headers.authorization.split(' ')[2]
+        const worthy =  req.headers.authorization.split(' ')[3]
         if(worthy === 'true'){
             next()
         }else{

@@ -15,7 +15,7 @@ mongoClient.connect((err, client) =>{
     const main = client.db('main')
     const users = main.collection('users')
 
-    router.post('/:userid', 
+    router.get('/:userid', 
     auth, 
     async (req,res) => {
         try{

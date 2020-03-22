@@ -1,5 +1,5 @@
 import React,{useEffect, useState, useContext} from 'react'
-import { User } from '../components/user'
+import { User } from '../components/User'
 import { useHttp } from '../hooks/http.hook'
 import { AuthContext } from '../context/AuthContext'
 
@@ -11,7 +11,7 @@ export const UsersPage = () =>{
     
     useEffect( () =>{
         const dataHandler = async () =>{
-            const response = await request(`api/users/`,'POST',{userId: auth.userId},{Authorization: `Bearer ${auth.token} ${auth.isWorthy}`})
+            const response = await request(`api/users/`,'GET',null,{Authorization: `Bearer ${auth.token} ${auth.userId} ${auth.isWorthy}`})
             setData(response)
         }
         dataHandler()
@@ -43,7 +43,6 @@ export const UsersPage = () =>{
     }
 
     array = filterItems(search)
-
 
     return(
         <div className='container'>
