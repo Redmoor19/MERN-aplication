@@ -11,11 +11,11 @@ export const UsersPage = () =>{
     
     useEffect( () =>{
         const dataHandler = async () =>{
-            const response = await request(`api/users/`,'GET',null,{Authorization: `Bearer ${auth.token}`})
+            const response = await request(`api/users/`,'POST',{userId: auth.userId},{Authorization: `Bearer ${auth.token} ${auth.isWorthy}`})
             setData(response)
         }
         dataHandler()
-    },[request, auth.token])
+    },[request, auth.token, auth.isWorthy, auth.userId])
 
 
     const searchHandler = event =>{

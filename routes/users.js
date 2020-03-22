@@ -15,7 +15,10 @@ mongoClient.connect((err,client) =>{
     const users = main.collection('users');
     const usersData = client.db('usersData')
 
-    router.get('/', async (req,res) => {
+    router.post('/',
+        //auth,
+        access,
+        async (req,res) => {
         try{
             const array = []
             const clients = users.find({"isWorthy":false})

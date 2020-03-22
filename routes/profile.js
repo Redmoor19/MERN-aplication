@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const config = require('config');
+const jwt = require('jsonwebtoken');
 const ObjectId = require('mongodb').ObjectID;
 const auth = require('../middleware/authmiddleware.js');
 const MongoClient = require('mongodb').MongoClient;
@@ -13,7 +15,9 @@ mongoClient.connect((err, client) =>{
     const main = client.db('main')
     const users = main.collection('users')
 
-    router.get('/:userid', auth, async (req,res) => {
+    router.post('/:userid', 
+    auth, 
+    async (req,res) => {
         try{
             const user = await users.findOne({"_id":ObjectId(req.params.userid)})
             if(!user){
@@ -25,7 +29,9 @@ mongoClient.connect((err, client) =>{
         }
     })
 
-    router.post('/:userid', auth, async (req, res) =>{
+    router.post('/:userid', 
+    auth, 
+    async (req, res) =>{
         try{
             const user = await users.findOne({"_id":ObjectId(req.params.userid)})
             if (!user)

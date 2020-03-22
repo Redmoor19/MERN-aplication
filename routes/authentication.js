@@ -80,9 +80,9 @@ mongoClient.connect((err,client) =>{
             }
             //JWT authentication
             const token = jwt.sign(
-                {userId: user.id},
-                config.get('jwtSecret',
-                {expiresIn: '1h'})
+                {userId: user._id},
+                config.get('jwtSecret'),
+                {expiresIn: '1h'}
             )
             res.send({token, userId: user._id, worthy: user.isWorthy})
 

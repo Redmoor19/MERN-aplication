@@ -15,7 +15,7 @@ export const ProfilePage = () =>{
     useEffect( () =>{
         const dataHandler = async () =>{
             if(auth && auth.userId){
-                const response = await request(`api/profile/${auth.userId}`,'GET',null,{Authorization: `Bearer ${auth.token}`})
+                const response = await request(`api/profile/${auth.userId}`,'POST',{userId : auth.userId},{Authorization: `Bearer ${auth.token}`})
                 setData(response)
                 setReady(true)
             }

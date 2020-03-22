@@ -18,7 +18,7 @@ function App() {
     return <Loader />
   }
   return (
-    <AuthContext.Provider value={{login, logout, token, userId, isAuthenticated}}>
+    <AuthContext.Provider value={{login, logout, token, userId, isAuthenticated, isWorthy}}>
       <Router>
             {isAuthenticated && <Navbar access={isWorthy}/>}
             <div className = "container">
