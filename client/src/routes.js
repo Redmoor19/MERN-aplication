@@ -3,14 +3,15 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthPage } from "./pages/AuthPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { UsersPage } from "./pages/UsersPage";
+import { CreateCase } from "./pages/CreateCase";
 
 export const useRoutes = (isAuthenticated, userId) => {
   if (isAuthenticated && userId) {
     return (
       <Switch>
-        {/* <Route path="/profile" exact>
-          <ProfilePage />
-        </Route> */}
+        <Route path="/case" exact>
+          <CreateCase/>
+        </Route>
         <Route path="/profile/:id" children={<ProfilePage />}  exact/>
         <Route path="/users" exact>
           <UsersPage />

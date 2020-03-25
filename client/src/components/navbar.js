@@ -19,6 +19,9 @@ export const Navbar = props => {
           <span className="brand-logo">Med Care</span>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>
+              <NavLink to="/case">Create Case</NavLink>
+            </li>
+            <li>
               <NavLink to="/users">Users</NavLink>
             </li>
             <li>

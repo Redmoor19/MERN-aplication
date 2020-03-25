@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { User } from "../components/User";
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context/AuthContext";
+import { arrayHandler } from "../functions/array.function";
 
 export const UsersPage = () => {
   const { request } = useHttp();
@@ -23,27 +24,8 @@ export const UsersPage = () => {
     setSearch(event.target.value);
   };
 
-  var array = data.map(item => {
-    const user = {
-      id: item._id,
-      info: item.secondName + " " + item.name
-    };
-    return user;
-  });
+  const array = arrayHandler(data, search);
 
-  array = array.sort(function(a, b) {
-    if (a.info < b.info) return -1;
-    else if (a.info > b.info) return 1;
-    return 0;
-  });
-
-  const filterItems = query => {
-    return array.filter(
-      element => element.info.toLowerCase().indexOf(query.toLowerCase()) > -1
-    );
-  };
-
-  array = filterItems(search);
 
   return (
     <div className="container">

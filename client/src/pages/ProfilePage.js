@@ -13,7 +13,6 @@ export const ProfilePage = () => {
   const { request } = useHttp();
   const auth = useContext(AuthContext);
   const {id} = useParams();
-  console.log(id)
 
   useEffect(() => {
     const dataHandler = async identifier => {
