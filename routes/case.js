@@ -22,7 +22,6 @@ mongoClient.connect((err,client) =>{
             const id = req.body.id
             const array = []
             const cases = usersData.collection(id).find({ })
-            console.log(cases)
             if(!cases) 
                 return res.status(404).send({message:"No cases found for this request"})
             cases.forEach( item =>{
@@ -38,6 +37,10 @@ mongoClient.connect((err,client) =>{
     router.post('/new', (req,res) => {
         try{
             const id = req.body.id;
+
+            if(!usersData.collection(id)){
+                return res.status(404).send({message:"No such user"})
+            }
 
             const event = new Case({
                 doctor: req.body.doctor,

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/authmiddleware');
 const access = require('../middleware/accessmiddleware');
+const ObjectId = require("mongodb").ObjectID;
 
 const MongoClient = require('mongodb').MongoClient;
 
@@ -33,6 +34,15 @@ mongoClient.connect((err,client) =>{
         }catch (e){
             res.status(404).send({message:"Users not found"})
         }
+    })
+
+    router.get('/:userid', async (req,res) => {
+        const user = await users.findOne({ _id: ObjectId(req.params.userid) });
+        const answer = {
+            name: user.name,
+            secondName: user.secondName
+        }
+        res.send(answer)
     })
 
 });

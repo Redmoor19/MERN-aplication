@@ -5,9 +5,11 @@ import { Loader } from "../components/Loader";
 import { UpdateProfile } from "../components/Updateprofile";
 import { Profile } from "../components/Profile";
 import { useParams } from "react-router-dom";
+import { ShowCases } from "../components/ShowCases";
 
 export const ProfilePage = () => {
   const [data, setData] = useState();
+  const [cases, setCases ] = useState([]);
   const [ready, setReady] = useState(false);
   const [updater, setUpdater] = useState();
   const { request } = useHttp();
@@ -18,7 +20,7 @@ export const ProfilePage = () => {
     const dataHandler = async identifier => {
       if (auth && auth.userId) {
           const url = `/api/profile/${identifier}`
-        const response = await request(
+          const response = await request(
           url,
           "GET",
           null,
@@ -28,9 +30,28 @@ export const ProfilePage = () => {
         setReady(true);
       }
     };
-    id && auth.userId !== id && auth.isWorthy === true
-      ? dataHandler(id)
-      : dataHandler(auth.userId);
+    const casesHandler = async identifier =>{
+      if(auth && auth.userId) {
+        const url="/api/case/"
+        const response = await request(
+          url,
+          "POST",
+          {id: identifier},
+          { Authorization: `Bearer ${auth.token} ${auth.userId}` }
+        )
+        setCases(response);
+      }
+    }
+
+    if(id && auth.userId !== id && auth.isWorthy === true){
+      dataHandler(id);
+      casesHandler(id);
+    }
+    else{
+      dataHandler(auth.userId);
+      casesHandler(auth.userId);
+    }
+    
   }, [auth.userId, updater, auth, request, id]);
 
   const update = () => {
@@ -44,6 +65,17 @@ export const ProfilePage = () => {
       <UpdateProfile id={auth.userId} token={auth.token} updated={update} />
     );
   } else {
-    return <Profile information={data} />;
+    return (
+    <div className=" " style={{marginLeft: "0px"}}>
+      <div className="row">
+        <div className="col s6" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
+        <Profile information={data} />
+        </div>
+        <div className="col s6" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
+        <ShowCases array={cases} />
+        </div>
+      </div>
+    </div>
+    )
   }
 };

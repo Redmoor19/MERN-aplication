@@ -2,20 +2,29 @@ import React from "react";
 
 export const Profile = ({ information }) => {
   return (
-    <div className="row">
-      <div className="col s8 offset-s2">
-        <h1>{information.name}'s user profile</h1>
-        <div className="card blue lighten-2">
-          <div className="container left-align">
-            <h3>
-              {information.name} {information.secondName}
-            </h3>
-            <h3>{information.address.street}</h3>
-            <h3>
-              {information.address.post} {information.address.city}
-            </h3>
-            <h3>{information.phone}</h3>
+    <div className="row" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
+      <div className="card-pannel yellow">
+        <div className = "row" style={{marginLeft: "0px"}}>
+          <div className = "col s6">
+            <h5>{information.secondName} {information.name}</h5>
           </div>
+          <div className = "col s12">
+            <h6>Address: </h6>
+          </div>
+          <br/>
+          <div className="col">
+            <span>{information.address.street}</span>
+          </div>
+          <div className="col">
+            <span>{information.address.city}, {information.address.post}</span>
+          </div>
+          <div className = "col s12">
+            <h6>Phone: </h6>
+          </div>
+          <div className="col">
+            <span>{information.phone}</span>
+          </div>
+
         </div>
       </div>
     </div>
