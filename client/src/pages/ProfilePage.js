@@ -50,9 +50,13 @@ export const ProfilePage = () => {
     else{
       dataHandler(auth.userId);
       casesHandler(auth.userId);
-    }
-    
+    }    
   }, [auth.userId, updater, auth, request, id]);
+
+  if(data && auth.userId === id){
+    const myName = data.secondName +" "+ data.name;
+    localStorage.setItem('myName',myName);
+  }
 
   const update = () => {
     setUpdater(true);
@@ -72,7 +76,7 @@ export const ProfilePage = () => {
         <Profile information={data} />
         </div>
         <div className="col s6" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
-        <ShowCases array={cases} />
+        <ShowCases userId={id} array={cases} />
         </div>
       </div>
     </div>

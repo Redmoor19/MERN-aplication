@@ -44,6 +44,7 @@ mongoClient.connect((err,client) =>{
 
             const event = new Case({
                 doctor: req.body.doctor,
+                doctorId: req.body.doctorId,
                 disease: req.body.disease,
                 recipe: req.body.recipe,
                 information: req.body.information
@@ -56,6 +57,20 @@ mongoClient.connect((err,client) =>{
         }catch (err){
 
         }
+    })
+
+    router.post('/add', async (req,res) => {
+        usersData.collection(req.body.userId).updateOne(
+            { _id: ObjectId(req.body.postId)},
+            {
+                "$push":{
+                    "comments":{
+                        person: req.body.person,
+                        content: req.body.content
+                    }
+                }
+            }
+        )
     })
 
 

@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, {useState, useContext} from 'react'
 import { useHttp } from '../hooks/http.hook'
-import { Loader } from './Loader'
+import { AuthContext } from '../context/AuthContext' 
 
-export const ShowCases = ({array}) =>{
-    
+export const ShowCases = ({userId, array}) =>{
     return(
     <div className="row" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
         <div className="card-pannel amber darken-3">
             <div className = "row " style={{marginLeft: "0px"}}>
                 <div className="col s12">
                 {array.map(item => 
-                (<Post key={item.id} item={item} />)    
+                (<Post userId={userId} key={item.date} item={item} />)    
                 )}
                 </div>
             </div>
@@ -19,24 +18,26 @@ export const ShowCases = ({array}) =>{
     )
 }
 
-const Post = ({key,item}) =>{
+const Post = ({userId,item}) =>{
+    const auth = useContext(AuthContext);
     const {request} = useHttp()
-    const [doctor, setDoctor] = useState({})
-    
-    useEffect( () => {
-        const doctorHandler = async id => {
-            if (item) {
-                const response = await request(`/api/users/${id}`);
-              setDoctor(response);
-            }
-        };
-        doctorHandler(item.doctor)
-    },[item, request])
-    
+    const [form, setForm] = useState({
+        userId: userId,
+        postId: item._id,
+        person: localStorage.getItem('myName'),
+        content:" "
+    })
+
+    const changeHandler = event =>{
+        setForm({...form, content : event.target.value})
+    }
+    const submitHandler = async () =>{
+        await request('/api/case/add','POST',{...form},{Authorization: `Bearer ${auth.token} ${auth.userId}`})
+    }
     return(
-        <div style={{marginBottom: '10px'}}>
+        <div style={{paddingBottom: '10px', marginLeft: "0px", border:'2px solid blue'}}>
             <div className = "col s6">
-                <h5>{doctor.secondName} {doctor.name}</h5>
+                <h5>{item.doctor}</h5>
             </div>
             <div className = "col s12">
                 <h6>Disease: {item.disease} </h6>
@@ -47,7 +48,27 @@ const Post = ({key,item}) =>{
             </div>
             <br/>
             <div className = "col s12">
-                <h6>Comments: {item.information} </h6>
+                <h6>Additional information: {item.information} </h6>
+            </div>
+            <div>
+                {item.comments.map( comment =>
+                    (<div key = {comment.id}>
+                        <p>{comment.person}: {comment.content}</p>
+                    </div>)
+                )}
+            </div>
+            <div>
+                <form>
+                    <textarea name='comment' cols="30" rows="5" 
+                    style={{marginLeft: "10px", resize: "none", background: "white", height:"8vh", width: "350px"}}
+                    id="content"
+                    value={form.content}
+                    onChange={changeHandler}
+                    ></textarea>
+                    <button className="btn waves-effect waves-light" type="submit" name="action"
+                    style={{marginBottom: " 20px", marginLeft: '10px'}}
+                    onClick={submitHandler}>Submit</button>
+                </form>
             </div>
         </div>
     )

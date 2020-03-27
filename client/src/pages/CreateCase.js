@@ -3,7 +3,6 @@ import Select from 'react-select';
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context/AuthContext";
 import { arrayHandler } from '../functions/array.function';
-import { NavLink } from 'react-router-dom';
 
 
 export const CreateCase = () => {
@@ -13,11 +12,13 @@ export const CreateCase = () => {
     const [selectedOption, setSelectedOption] = useState();
     const [form, setForm] = useState({
         id: " ",
+        doctorId: " ",
         doctor: " ", 
         disease: " ",
         recipe: " ",
         information: " "
     });
+    console.log(form)
     
     useEffect(() => {
         const dataHandler = async () => {
@@ -41,7 +42,7 @@ export const CreateCase = () => {
     
     const handleOption = selectedOption =>{
         setSelectedOption(selectedOption)
-        setForm({id : selectedOption.id, doctor: auth.userId})
+        setForm({id : selectedOption.id, doctor:localStorage.getItem('myName'), doctorId: auth.userId})
     }
     
     const changeHandler = event => {

@@ -9,6 +9,10 @@ const CaseSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    doctorId:{
+        type: String,
+        required: true
+    },
     disease:{
         type: String,
         required: true
@@ -21,6 +25,10 @@ const CaseSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    comments :[{person:{type: String},
+                body:{type: String},
+                date:{type: Date, default: Date.now}
+                }],
     date: {
         type: Date,
         default: Date.now
