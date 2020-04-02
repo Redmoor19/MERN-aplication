@@ -10,7 +10,7 @@ export const UpdateProfile = (props) =>{
         street: '',
         post: '',
         city: '',
-        phone: ' '
+        phone: ''
     })
 
     useEffect( () => {
@@ -18,7 +18,7 @@ export const UpdateProfile = (props) =>{
     },[])
 
     const changeHandler = (event) =>{
-        setForm({...form,[event.target.name]: event.target.value})
+        setForm({...form,[event.target.name] : event.target.value})
     }
 
     const updateHandler = async () => {

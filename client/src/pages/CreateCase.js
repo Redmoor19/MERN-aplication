@@ -18,7 +18,6 @@ export const CreateCase = () => {
         recipe: " ",
         information: " "
     });
-    console.log(form)
     
     useEffect(() => {
         const dataHandler = async () => {

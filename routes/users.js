@@ -30,7 +30,6 @@ mongoClient.connect((err,client) =>{
             },
             () =>res.send(array))
             
-            
         }catch (e){
             res.status(404).send({message:"Users not found"})
         }

@@ -1,9 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const config = require("config");
-const jwt = require("jsonwebtoken");
-const ObjectId = require("mongodb").ObjectID;
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '../uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.filename)
+  } 
+});
+
+const upload = multer({storage: storage})
 const auth = require("../middleware/authmiddleware.js");
+
+const ObjectId = require("mongodb").ObjectID;
 const MongoClient = require("mongodb").MongoClient;
 
 const mongoClient = new MongoClient("mongodb://localhost:27017/", {
@@ -27,7 +38,7 @@ mongoClient.connect((err, client) => {
     }
   });
 
-  router.post("/:userid", auth, async (req, res) => {
+  router.post("/:userid", async (req, res) => {
     try {
       const user = await users.findOne({ _id: ObjectId(req.params.userid) });
       if (!user) return res.status(404).send({ message: "User was not found" });
@@ -44,7 +55,7 @@ mongoClient.connect((err, client) => {
               post: req.body.post,
               city: req.body.city
             },
-            phone: req.body.phone
+            phone: req.body.phone,
           }
         }
       );
