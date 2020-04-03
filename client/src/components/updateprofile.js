@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useHttp } from '../hooks/http.hook';
 
 export const UpdateProfile = (props) =>{
-    const {request} = useHttp()
+    const [file, setFile] = useState(null)
     const [form, setForm] = useState({
-        updated: true,
+        updated: false,
         name: '', 
         secondName: '' ,
         street: '',
@@ -21,8 +20,29 @@ export const UpdateProfile = (props) =>{
         setForm({...form,[event.target.name] : event.target.value})
     }
 
+    const imageUpdate = (event) =>{
+        event.preventDefault()
+        setFile(event.target.files[0])
+    }
+
     const updateHandler = async () => {
-        await request(`/api/profile/${props.id}`,'POST',{...form},{Authorization: `Bearer ${props.token} ${props.id}`})
+        const data = new FormData();
+        data.append('userImage',file);
+        data.append('updated', form.updated)
+        data.append('name', form.name)
+        data.append('secondName', form.secondName)
+        data.append('street', form.street)
+        data.append('post', form.post)
+        data.append('city', form.city)
+        data.append('phone', form.phone)
+        await fetch(
+            `/api/profile/${props.id}`,
+            {
+                method: 'POST',
+                body: data,
+                headers: {Authorization: `Bearer ${props.token} ${props.id}`}
+            }
+        )
         props.updated()
     }
 
@@ -33,6 +53,19 @@ export const UpdateProfile = (props) =>{
                     <div className='card-content black-text'>
                         <span className='center-align card-title'>Profile update</span>
                         <div>
+                            <div className="file-field input-field">
+                                <div className="btn">
+                                    <span>File</span>
+                                    <input 
+                                    type="file"
+                                    name="file"
+                                    onChange={imageUpdate}
+                                    />
+                                </div>
+                                <div className="file-path-wrapper">
+                                    <input className="file-path validate" type="text"/>
+                                </div>
+                            </div>                            
                             <div className="input-field">
                                 <input 
                                 placeholder="Enter your name" 

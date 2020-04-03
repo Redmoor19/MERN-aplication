@@ -3,15 +3,16 @@ const router = express.Router();
 const multer = require('multer');
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, '../uploads');
+  destination: (req,file,cb) => {
+    cb(null, 'client/src/images')
   },
   filename: (req, file, cb) => {
-    cb(null, file.filename)
-  } 
+    cb(null, Date.now() + file.originalname);
+  }
 });
 
 const upload = multer({storage: storage})
+
 const auth = require("../middleware/authmiddleware.js");
 
 const ObjectId = require("mongodb").ObjectID;
@@ -38,7 +39,7 @@ mongoClient.connect((err, client) => {
     }
   });
 
-  router.post("/:userid", async (req, res) => {
+  router.post("/:userid", upload.single('userImage'), async (req, res) => {
     try {
       const user = await users.findOne({ _id: ObjectId(req.params.userid) });
       if (!user) return res.status(404).send({ message: "User was not found" });
@@ -47,7 +48,7 @@ mongoClient.connect((err, client) => {
         { _id: ObjectId(req.params.userid) },
         {
           $set: {
-            updated: req.body.updated,
+            updated: !!req.body.updated,
             name: req.body.name,
             secondName: req.body.secondName,
             address: {
@@ -56,6 +57,8 @@ mongoClient.connect((err, client) => {
               city: req.body.city
             },
             phone: req.body.phone,
+            imageUrl: req.file.path,
+            imageName: req.file.filename
           }
         }
       );

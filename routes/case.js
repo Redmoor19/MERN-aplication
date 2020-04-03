@@ -4,6 +4,18 @@ const Case = require('../models/Case')
 const auth = require("../middleware/authmiddleware.js");
 const access = require('../middleware/accessmiddleware');
 
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'client/src/files')
+    },
+    filename: (req,file,cb) => {
+        cb(null, Date.now() + file.originalname)
+    }
+})
+const upload = multer({storage: storage})
+
+
 const ObjectId = require("mongodb").ObjectID;
 const MongoClient = require("mongodb").MongoClient;
 
@@ -59,7 +71,8 @@ mongoClient.connect((err,client) =>{
         }
     })
 
-    router.post('/add', async (req,res) => {
+    router.post('/add', upload.array('file'), async (req,res) => {
+        console.log(req.files)
         usersData.collection(req.body.userId).updateOne(
             { _id: ObjectId(req.body.postId)},
             {

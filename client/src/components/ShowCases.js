@@ -36,6 +36,7 @@ export const ShowCases = ({userId, array}) =>{
 const Post = ({userId,item}) =>{
     const auth = useContext(AuthContext);
     const {request} = useHttp()
+    const [files, setFiles] = useState()
     const [form, setForm] = useState({
         userId: userId,
         postId: item._id,
@@ -48,8 +49,26 @@ const Post = ({userId,item}) =>{
     const changeHandler = event =>{
         setForm({...form, content : event.target.value})
     }
+    const fileHandler = event => {
+        setFiles(event.target.files)
+    }
     const submitHandler = async () =>{
-        await request('/api/case/add','POST',{...form},{Authorization: `Bearer ${auth.token} ${auth.userId}`})
+        const data = new FormData()
+        for (var i = 0; i < files.length; i++){
+            data.append('file', files[i])
+        }
+        data.append('userId', form.userId)
+        data.append('postId', form.postId)
+        data.append('person', form.person)
+        data.append('content', form.content)
+        await fetch(
+            '/api/case/add',
+            {
+            method: 'POST',
+            body: data,
+            headers: {Authorization: `Bearer ${auth.token} ${auth.userId}`}
+            }
+        )
     }
     return(
         <div style={{paddingBottom: '10px', marginLeft: "0px", border:'2px solid blue'}}>
@@ -83,6 +102,10 @@ const Post = ({userId,item}) =>{
                     value={form.content}
                     onChange={changeHandler}
                     ></textarea>
+                    <input
+                    type='file'
+                    multiple
+                    onChange={fileHandler}/>
                     <button className="btn waves-effect waves-light" type="submit" name="action"
                     style={{marginBottom: " 20px", marginLeft: '10px'}}
                     onClick={submitHandler}>Submit</button>
