@@ -1,0 +1,41 @@
+<div style={{paddingBottom: '10px', marginLeft: "0px", border:'2px solid blue'}}>
+            <div className = "col s12">
+                <h5 style={{display: "inline-block"}}>{item.doctor}</h5>
+                <span style={{fontSize: '15px', display: "inline-block",float: "right"}}>{fullDate.hours}:{fullDate.minutes} {fullDate.day} {fullDate.month} {fullDate.year}</span>
+            </div>
+            <div className = "col s12">
+                <h6>Disease: {item.disease} </h6>
+            </div>
+            <br/>
+            <div className = "col s12">
+                <h6>Recipe: {item.recipe} </h6>
+            </div>
+            <br/>
+            <div className = "col s12">
+                <h6>Additional information: {item.information} </h6>
+            </div>
+            <div>
+                {item.comments.map( comment =>
+                    (<div key = {comment.id}>
+                        <p>{comment.person}: {comment.content}</p>
+                    </div>)
+                )}
+            </div>
+            <div>
+                <form>
+                    <textarea name='comment' cols="30" rows="5" 
+                    style={{marginLeft: "10px", resize: "none", background: "white", height:"8vh", width: "350px"}}
+                    id="content"
+                    value={form.content}
+                    onChange={changeHandler}
+                    ></textarea>
+                    <input
+                    type='file'
+                    onChange={fileHandler}
+                    multiple/>
+                    <button className="btn waves-effect waves-light" type="submit" name="action"
+                    style={{marginBottom: " 20px", marginLeft: '10px'}}
+                    onClick={submitHandler}>Submit</button>
+                </form>
+            </div>
+        </div>

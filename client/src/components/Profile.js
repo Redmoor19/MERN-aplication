@@ -3,34 +3,31 @@ import React from "react";
 export const Profile = ({ information }) => {
   var avatar
   information.imageName ? avatar = information.imageName : avatar = "Без названия.png"
-
+  
+  const year = information.dateOfBirth.split('-')[0]
+  const month = information.dateOfBirth.split('-')[1]
+  const day = information.dateOfBirth.split('-')[2]
+  
   return (
-    <div className="row" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
-      <div className="card-pannel yellow">
-        <img src={require(`../images/${avatar}`)} alt='userImage' style={{width: "150px"}}/>
-        <div className = "row" style={{marginLeft: "0px"}}>
-          <div className = "col s6">
-            <h5>{information.secondName} {information.name}</h5>
-          </div>
-          <div className = "col s12">
-            <h6>Address: </h6>
-          </div>
-          <br/>
-          <div className="col">
-            <span>{information.address.street}</span>
-          </div>
-          <div className="col">
-            <span>{information.address.city}, {information.address.post}</span>
-          </div>
-          <div className = "col s12">
-            <h6>Phone: </h6>
-          </div>
-          <div className="col">
-            <span>{information.phone}</span>
-          </div>
-
+    <div className="row">
+    <div className="col s12">
+      <div className="card">
+        <div className="card-image">
+        <img src={require(`../images/${avatar}`)} alt='userImage'/>
+          <span className="card-title fat">{information.name} {information.secondName}</span>
+        </div>
+        <div className="card-content">
+          <h5>Date of birth:</h5> 
+            <p>{day}-{month}-{year}</p>
+          <h5>Adress:</h5>
+            <p>{information.address.street}</p>
+          <h5>City</h5>
+            <p>{information.address.post}, {information.address.city}</p>
+          <h5>Contact phone:</h5>
+            <p>{information.phone}</p>
         </div>
       </div>
     </div>
+  </div>
   );
 };

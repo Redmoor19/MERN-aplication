@@ -17,3 +17,76 @@ input.yellow-input:focus {
 input.yellow-input:focus + label{
   color: #ffeb3b!important;
 }
+
+span.fat{
+  color: #000000!important;
+  font-size: 5vh!important;
+  font-weight: 500!important;
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff !important;
+}
+
+.card-image img{
+  width: 100%!important;
+  max-height: 300px;
+}
+
+.card-content p{
+  font-size: 18px !important;
+}
+
+
+.comment-form textarea{
+  resize: none;
+  background: white;
+  height: 10vh; 
+  width: 90%
+}
+
+.comment-form button{
+  float: right;
+  margin-right: 10%;
+}
+
+.notification{
+  margin-top: 10px;
+}
+
+li.comment{
+  margin: 10px 0px 10px 0px;
+  padding: 2px;
+  background-color: rgb(146, 145, 145);
+}
+
+.comment p{
+  color: white!important;
+  font-size: 20px;
+  margin: 0;
+  display: inline;
+}
+
+.card-action{
+  padding: 0px 24px 16px 24px !important;
+}
+
+.notificationIcon{
+  cursor: pointer;
+}
+
+.notificationIcon img{
+  max-width: 60px;
+}
+
+.notification-content{
+  position: absolute;
+  width: 250px;
+  z-index: 10;
+  background-color: #baf8fa;
+}
+
+.notification-content p{
+  padding-left: 10px;
+}
+
+.notification-content button{
+  width: 100%;
+}

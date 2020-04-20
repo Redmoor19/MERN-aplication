@@ -1,5 +1,4 @@
 import React, {useState, useContext} from 'react'
-import { useHttp } from '../hooks/http.hook'
 import { AuthContext } from '../context/AuthContext' 
 import { formDate } from '../functions/date'
 
@@ -19,29 +18,25 @@ export const ShowCases = ({userId, array}) =>{
     });
 
     return(
-    <div className="row" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
-        <div className="card-pannel amber darken-3">
-            <div className = "row " style={{marginLeft: "0px"}}>
-                <div className="col s12">
-                {array.map(item => 
-                (<Post userId={userId} key={item.date} item={item} />)    
-                )}
-                </div>
-            </div>
+    <div className="row">
+        <div className="col s12">
+            {array.map(item => 
+            (<Post userId={userId} key={item.date} item={item}/>)    
+            )}
         </div>
-    </div>
+    </div>   
     )
 }
 
-const Post = ({userId,item}) =>{
+const Post = ({userId,item, post}) =>{
     const auth = useContext(AuthContext);
-    const {request} = useHttp()
-    const [files, setFiles] = useState()
+    const [file, setFile] = useState()
     const [form, setForm] = useState({
+        senderId: auth.userId,
         userId: userId,
         postId: item._id,
         person: localStorage.getItem('myName'),
-        content:" "
+        content: ""
     })
 
     const fullDate = formDate(item.date)
@@ -50,19 +45,21 @@ const Post = ({userId,item}) =>{
         setForm({...form, content : event.target.value})
     }
     const fileHandler = event => {
-        setFiles(event.target.files)
+        event.preventDefault()
+        setFile(event.target.files[0])
     }
     const submitHandler = async () =>{
-        const data = new FormData()
-        for (var i = 0; i < files.length; i++){
-            data.append('file', files[i])
-        }
-        data.append('userId', form.userId)
+        
+        const data = new FormData();
+        if (file) data.append('file', file)
         data.append('postId', form.postId)
+        data.append('userId', form.userId)
         data.append('person', form.person)
         data.append('content', form.content)
-        await fetch(
-            '/api/case/add',
+        data.append('senderId', form.senderId)
+
+        if (data) await fetch(
+            '/api/case/upload',
             {
             method: 'POST',
             body: data,
@@ -71,45 +68,45 @@ const Post = ({userId,item}) =>{
         )
     }
     return(
-        <div style={{paddingBottom: '10px', marginLeft: "0px", border:'2px solid blue'}}>
-            <div className = "col s12">
-                <h5 style={{display: "inline-block"}}>{item.doctor}</h5>
-                <span style={{fontSize: '15px', display: "inline-block",float: "right"}}>{fullDate.hours}:{fullDate.minutes} {fullDate.day} {fullDate.month} {fullDate.year}</span>
-            </div>
-            <div className = "col s12">
-                <h6>Disease: {item.disease} </h6>
-            </div>
-            <br/>
-            <div className = "col s12">
-                <h6>Recipe: {item.recipe} </h6>
-            </div>
-            <br/>
-            <div className = "col s12">
-                <h6>Additional information: {item.information} </h6>
-            </div>
-            <div>
-                {item.comments.map( comment =>
-                    (<div key = {comment.id}>
-                        <p>{comment.person}: {comment.content}</p>
-                    </div>)
-                )}
-            </div>
-            <div>
-                <form>
-                    <textarea name='comment' cols="30" rows="5" 
-                    style={{marginLeft: "10px", resize: "none", background: "white", height:"8vh", width: "350px"}}
-                    id="content"
-                    value={form.content}
-                    onChange={changeHandler}
-                    ></textarea>
-                    <input
-                    type='file'
-                    multiple
-                    onChange={fileHandler}/>
-                    <button className="btn waves-effect waves-light" type="submit" name="action"
-                    style={{marginBottom: " 20px", marginLeft: '10px'}}
-                    onClick={submitHandler}>Submit</button>
-                </form>
+        <div className="row">
+            <div className="col s12">
+                <div className="card blue-grey darken-1">
+                    <div className="card-content white-text">
+                    <span className="card-title case">Disease: {item.disease}</span>
+                    <h5>{fullDate.hours}:{fullDate.minutes} {fullDate.day} {fullDate.month} {fullDate.year}</h5>
+                    <h5>Recipe: </h5>
+                        <p>{item.recipe}</p>
+                    <h5>Comment: </h5>
+                        <p>{item.information}</p>
+                    </div>
+                    <div className="card-action">
+                        <ul>
+                        {item.comments.map( comment =>
+                        (<li className="comment" key = {comment.id}>
+                            <p>{comment.person}: {comment.content}<br/></p>
+                            <a href={`../files/${comment.filename}`} download>{comment.filename}</a>
+                        </li>)
+                        )}
+                        </ul>
+                        <form className="comment-form">
+                            <textarea name='comment' cols="30" rows="5" 
+                            id="content"
+                            value={form.content}
+                            onChange={changeHandler}
+                            >
+                            </textarea>
+                            <input
+                            type='file'
+                            name="file"
+                            onChange={fileHandler}
+                            />
+                            <button className="btn waves-effect waves-light" type="submit" name="action"
+                            onClick={submitHandler}>
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -9,7 +9,8 @@ export const UpdateProfile = (props) =>{
         street: '',
         post: '',
         city: '',
-        phone: ''
+        phone: '',
+        dateOfBirth: ''
     })
 
     useEffect( () => {
@@ -18,6 +19,7 @@ export const UpdateProfile = (props) =>{
 
     const changeHandler = (event) =>{
         setForm({...form,[event.target.name] : event.target.value})
+        console.log(form)
     }
 
     const imageUpdate = (event) =>{
@@ -35,6 +37,7 @@ export const UpdateProfile = (props) =>{
         data.append('post', form.post)
         data.append('city', form.city)
         data.append('phone', form.phone)
+        data.append('dateOfBirth', form.dateOfBirth)
         await fetch(
             `/api/profile/${props.id}`,
             {
@@ -89,6 +92,18 @@ export const UpdateProfile = (props) =>{
                                 onChange = {changeHandler}
                                 />
                                 <label htmlFor="secondName">Second name</label>
+                            </div>
+                            <div className="input-field">
+                                <input 
+                                placeholder="Pick your date of birth"
+                                id="dateOfBirth"
+                                type="date"
+                                name="dateOfBirth"
+                                className="yellow-input"
+                                onChange= {changeHandler} 
+                                value={form.dateOfBirth}
+                                />
+                                <label htmlFor="dateOfBirth">Date of birth</label>
                             </div>
                             <div className="input-field">
                                 <input 

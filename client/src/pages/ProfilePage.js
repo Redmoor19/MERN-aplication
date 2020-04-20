@@ -6,6 +6,7 @@ import { UpdateProfile } from "../components/Updateprofile";
 import { Profile } from "../components/Profile";
 import { useParams } from "react-router-dom";
 import { ShowCases } from "../components/ShowCases";
+import {Notification} from '../components/Notification';
 
 export const ProfilePage = () => {
   const [data, setData] = useState();
@@ -68,18 +69,33 @@ export const ProfilePage = () => {
     return (
       <UpdateProfile id={auth.userId} token={auth.token} updated={update} />
     );
-  } else {
+  } else if (auth.userId === id){
     return (
-    <div className=" " style={{marginLeft: "0px"}}>
-      <div className="row">
-        <div className="col s6" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
-        <Profile information={data} />
+        <div className="row">
+          <div className="col s1 notification">
+            <Notification data={data} userId={auth.userId}/>
+          </div>
+          <div className="col s4">
+            <Profile information={data} />
+          </div>
+          <div className="col s6">
+            <ShowCases userId={id} array={cases} />
+          </div>
         </div>
-        <div className="col s6" style={{padding: "0 0 0 0",margin: "0 0 0 0" }}>
-        <ShowCases userId={id} array={cases} />
+      )
+  }else{
+    return (
+        <div className="row">
+          <div className="col s1 notification">
+          </div>
+          <div className="col s4">
+          <Profile information={data} />
+          </div>
+          <div className="col s6">
+          <ShowCases userId={id} array={cases} />
+          </div>
         </div>
-      </div>
-    </div>
-    )
+      )
+    
   }
 };
