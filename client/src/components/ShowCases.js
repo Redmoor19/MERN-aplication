@@ -28,7 +28,7 @@ export const ShowCases = ({userId, array}) =>{
     )
 }
 
-const Post = ({userId,item, post}) =>{
+const Post = ({userId,item}) =>{
     const auth = useContext(AuthContext);
     const [file, setFile] = useState()
     const [form, setForm] = useState({

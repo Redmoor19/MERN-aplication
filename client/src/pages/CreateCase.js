@@ -11,12 +11,12 @@ export const CreateCase = () => {
     const [data, setData] = useState([]);
     const [selectedOption, setSelectedOption] = useState();
     const [form, setForm] = useState({
-        id: " ",
-        doctorId: " ",
-        doctor: " ", 
-        disease: " ",
-        recipe: " ",
-        information: " "
+        id: "",
+        doctorId: "",
+        doctor: "", 
+        disease: "",
+        recipe: "",
+        information: ""
     });
     
     useEffect(() => {
@@ -49,10 +49,9 @@ export const CreateCase = () => {
     }
 
     const submitHandler = async () => {
-        const response = await request('/api/case/new','POST',{...form},{
+        await request('/api/case/new','POST',{...form},{
             Authorization: `Bearer ${auth.token} ${auth.userId} ${auth.isWorthy}`
         });
-        console.log(response)
     }
 
     return(

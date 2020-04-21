@@ -3,7 +3,8 @@ export const arrayHandler = (data, search) => {
   var array = data.map(item => {
       const user = {
         id: item._id,
-        info: item.secondName + " " + item.name
+        info: item.secondName + " " + item.name,
+        dateOfBirth: item.dateOfBirth,
       };
       return user;
   });

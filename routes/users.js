@@ -30,18 +30,25 @@ mongoClient.connect((err,client) =>{
             },
             () =>res.send(array))
             
-        }catch (e){
+        }catch (err){
             res.status(404).send({message:"Users not found"})
         }
     })
 
-    router.get('/:userid', async (req,res) => {
+    router.get('/:userid',
+        auth,
+        access,
+        async (req,res) => {
+        try{
         const user = await users.findOne({ _id: ObjectId(req.params.userid) });
         const answer = {
             name: user.name,
             secondName: user.secondName
         }
         res.send(answer)
+        }catch (err){
+            res.status(402).send({message: "Bad request"})
+        }
     })
 
 });

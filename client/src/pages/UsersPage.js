@@ -31,7 +31,7 @@ export const UsersPage = () => {
     <div className="container">
       <div className="row">
         <div className="col s12">
-          <div className="row" style={{ marginTop: "10px" }}>
+          <div className="row search">
             <div className="input-field col s12">
               <input
                 type="text"
@@ -45,7 +45,7 @@ export const UsersPage = () => {
         </div>
       </div>
       {array.map(user => (
-        <User key={user.id} id={user.id} info={user.info} />
+        <User key={user.id} id={user.id} info={user.info} dateOfBirth={user.dateOfBirth} />
       ))}
     </div>
   );

@@ -39,7 +39,7 @@ mongoClient.connect((err, client) => {
     }
   });
 
-  router.post("/:userid", upload.single('userImage'), async (req, res) => {
+  router.post("/:userid", upload.single('userImage'), auth, async (req, res) => {
     try {
       const user = await users.findOne({ _id: ObjectId(req.params.userid) });
       if (!user) return res.status(404).send({ message: "User was not found" });
@@ -51,6 +51,7 @@ mongoClient.connect((err, client) => {
             updated: !!req.body.updated,
             name: req.body.name,
             secondName: req.body.secondName,
+            dateOfBirth: req.body.dateOfBirth,
             address: {
               street: req.body.street,
               post: req.body.post,
@@ -62,11 +63,9 @@ mongoClient.connect((err, client) => {
           }
         }
       );
-      res.send(user);
+      res.send({message: "User was updated"});
     } catch (e) {
-      res
-        .status(401)
-        .send({ message: "Something is wrong with updating user" });
+      res.status(401).send({ message: "Something is wrong with updating user" });
     }
   });
 });
