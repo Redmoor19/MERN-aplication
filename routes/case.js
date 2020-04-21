@@ -103,7 +103,7 @@ mongoClient.connect((err,client) =>{
                         person: req.body.person,
                         content: req.body.content,
                         filename: req.file.originalname,
-
+                        date: Date.now()
                     },
                 }
             }
@@ -115,7 +115,7 @@ mongoClient.connect((err,client) =>{
                     "comments":{
                         person: req.body.person,
                         content: req.body.content,
-
+                        date: Date.now()
                     },
                 }
             }

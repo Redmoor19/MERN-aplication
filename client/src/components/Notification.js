@@ -15,11 +15,10 @@ export const Notification = (props) =>{
         {
             method: "DELETE",
             body: null,
-            header: null
+            headers: {Authorization: `Bearer ${props.token} ${props.userId}`}
         });
         }
         setNotif(null);
-        console.log('notif')
     }
 
 

@@ -38,7 +38,7 @@ export const ProfilePage = () => {
           url,
           "POST",
           {id: identifier},
-          { Authorization: `Bearer ${auth.token} ${auth.userId}` }
+          {Authorization: `Bearer ${auth.token} ${auth.userId}` }
         )
         setCases(response);
       }
@@ -73,7 +73,7 @@ export const ProfilePage = () => {
     return (
         <div className="row">
           <div className="col s1 notification">
-            <Notification data={data} userId={auth.userId}/>
+            <Notification data={data} token={auth.token} userId={auth.userId}/>
           </div>
           <div className="col s4">
             <Profile information={data} />

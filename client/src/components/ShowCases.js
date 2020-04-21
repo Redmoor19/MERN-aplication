@@ -81,8 +81,14 @@ const Post = ({userId,item}) =>{
                     </div>
                     <div className="card-action">
                         <ul>
-                        {item.comments.map( comment =>
-                        (<li className="comment" key = {comment.id}>
+                        {item.comments.map( comment => 
+                        (
+                        <li className="comment" key = {comment.id}>
+                            <span>
+                                {formDate(comment.date).hours}:
+                                {formDate(comment.date).minutes} {formDate(comment.date).day} {formDate(comment.date).month} {formDate(comment.date).year}
+                            <br/>
+                            </span>
                             <p>{comment.person}: {comment.content}<br/></p>
                             <a href={`../files/${comment.filename}`} download>{comment.filename}</a>
                         </li>)

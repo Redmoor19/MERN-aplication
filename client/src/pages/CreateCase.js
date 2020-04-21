@@ -56,7 +56,7 @@ export const CreateCase = () => {
 
     return(
         <div className="row">
-            <form className="col s12" style={{paddingTop: "30px"}}>
+            <form className="col s12 create-case">
                 <div className="row">
                     <div className="input-field col s6">
                         <Select
@@ -104,7 +104,7 @@ export const CreateCase = () => {
                     <label htmlFor="recipe">Comment</label>
                     </div>
                 </div>
-                    <button style={{float: "right", height: "70px", width:"100px"}} 
+                    <button 
                     className="btn waves-effect waves-light"
                     onClick={submitHandler}
                     >

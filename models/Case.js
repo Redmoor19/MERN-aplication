@@ -27,7 +27,7 @@ const CaseSchema = mongoose.Schema({
     },
     comments :[{person:{type: String},
                 body:{type: String},
-                date:{type: Date, default: Date.now}
+                date:{type: Date, default: Date.now()}
                 }],
     date: {
         type: Date,

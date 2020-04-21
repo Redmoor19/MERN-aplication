@@ -39,12 +39,12 @@ span.fat{
   resize: none;
   background: white;
   height: 10vh; 
-  width: 90%
+  width: 100%
 }
 
 .comment-form button{
   float: right;
-  margin-right: 10%;
+  margin-right: 0%;
 }
 
 .notification{
@@ -62,6 +62,12 @@ li.comment{
   font-size: 20px;
   margin: 0;
   display: inline;
+  padding-left: 5px;
+}
+
+.comment span{
+  font-size: 13px;
+  padding-left: 10px;
 }
 
 .card-action{
@@ -120,4 +126,14 @@ p{
 
 .brand-logo{
   padding-left: 15px!important;
+}
+
+.create-case{
+  padding-top: 30px!important;
+}
+
+.create-case button{
+  float: right; 
+  height: 70px; 
+  width: 100px;
 }
