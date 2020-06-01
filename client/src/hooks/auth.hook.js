@@ -24,6 +24,7 @@ export const useAuth = () =>{
     const logout = useCallback( ( ) => {
         setToken(null)
         setUserId(null)
+        setWorthy(null)
 
         localStorage.removeItem(storageName)
         localStorage.removeItem('myName')

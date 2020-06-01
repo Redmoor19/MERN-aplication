@@ -74,7 +74,7 @@ const Post = ({userId,item}) =>{
                     <div className="card-content white-text">
                     <span className="card-title case">Disease: {item.disease}</span>
                     <h5>{fullDate.hours}:{fullDate.minutes} {fullDate.day} {fullDate.month} {fullDate.year}</h5>
-                    <h5>Recipe: </h5>
+                    <h5>Prescription: </h5>
                         <p>{item.recipe}</p>
                     <h5>Comment: </h5>
                         <p>{item.information}</p>
@@ -82,16 +82,7 @@ const Post = ({userId,item}) =>{
                     <div className="card-action">
                         <ul>
                         {item.comments.map( comment => 
-                        (
-                        <li className="comment" key = {comment.id}>
-                            <span>
-                                {formDate(comment.date).hours}:
-                                {formDate(comment.date).minutes} {formDate(comment.date).day} {formDate(comment.date).month} {formDate(comment.date).year}
-                            <br/>
-                            </span>
-                            <p>{comment.person}: {comment.content}<br/></p>
-                            <a href={`../files/${comment.filename}`} download>{comment.filename}</a>
-                        </li>)
+                        (<Comment comment={comment} />)
                         )}
                         </ul>
                         <form className="comment-form">
@@ -115,5 +106,34 @@ const Post = ({userId,item}) =>{
                 </div>
             </div>
         </div>
+    )
+}
+
+const Comment = (props) =>{
+    const comment = props.comment
+
+    const downloadFile = () => {
+		fetch(`/api/case/download/${comment.filename}`)
+			.then(response => {
+				response.blob().then(blob => {
+					let url = window.URL.createObjectURL(blob);
+					let a = document.createElement('a');
+					a.href = url;
+					a.download = `${comment.filename}`;
+					a.click();
+				});
+		});
+    }
+    
+    return(
+        <li className="comment">
+            <span>
+                {formDate(comment.date).hours}:
+                {formDate(comment.date).minutes} {formDate(comment.date).day} {formDate(comment.date).month} {formDate(comment.date).year}
+            <br/>
+            </span>
+            <p>{comment.person}: {comment.content}<br/></p>
+            {comment.filename && <button className="download" onClick={downloadFile} >Download file: {comment.filename}</button>}
+        </li>
     )
 }

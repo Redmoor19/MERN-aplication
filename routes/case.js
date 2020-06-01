@@ -63,7 +63,8 @@ mongoClient.connect((err,client) =>{
                 doctorId: req.body.doctorId,
                 disease: req.body.disease,
                 recipe: req.body.recipe,
-                information: req.body.information
+                information: req.body.information,
+                date: Date.now()
             })
             res.send({message: "Success"})
 
@@ -102,7 +103,8 @@ mongoClient.connect((err,client) =>{
                     "comments":{
                         person: req.body.person,
                         content: req.body.content,
-                        filename: req.file.originalname,
+                        filename: req.file.filename,
+                        originalname: req.file.originalname,
                         date: Date.now()
                     },
                 }
@@ -141,7 +143,7 @@ mongoClient.connect((err,client) =>{
                     "$push":{
                         "notifications":{
                             type: "comment",
-                            from: req.doctor,
+                            from: post.doctor,
                             to: req.body.userId
                         }
                     }
@@ -168,6 +170,11 @@ mongoClient.connect((err,client) =>{
         }catch (err){
             res.status(404).send({message: "No such user found"})
         }
+    })
+
+    router.get('/download/:file', (req, res) => {
+        const file = req.params.file
+        res.download(`client/src/files/${file}`, req.params.file)
     })
 });
 

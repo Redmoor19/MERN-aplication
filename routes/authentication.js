@@ -95,7 +95,6 @@ mongoClient.connect((err, client) => {
         const token = jwt.sign(
           { userId: user._id },
           config.get("jwtSecret")
-          //{expiresIn: '1h'}
         );
         res.send({ token, userId: user._id, worthy: user.isWorthy });
       } catch (e) {

@@ -88,7 +88,7 @@ export const CreateCase = () => {
                         onChange={changeHandler}
                         >
                         </textarea>
-                    <label htmlFor="recipe">Recipe</label>
+                    <label htmlFor="recipe">Prescription</label>
                     </div>
                 </div>
                 <div className="row">

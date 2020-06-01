@@ -137,3 +137,17 @@ p{
   height: 70px; 
   width: 100px;
 }
+
+.download{
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #494040;
+}
+.download:hover{
+  color: black;
+}
+.download:active{
+  background: none
+}
